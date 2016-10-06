@@ -5,7 +5,8 @@ def guest_num
     other_guests = line.split(',')
     guest_counter += other_guests[2].to_i + 1
   end
-  guest_counter
+  print guest_counter
+  txt.close
 end
 
 def rand_rsvp
@@ -18,6 +19,7 @@ def rand_rsvp
   info = name.to_s + ',' + email.to_s + ',' + guests.to_s + ',' + food.to_s
   txt = open('people.csv', 'a')
   txt.puts info
+  txt.close
 end
 
 def remove_food
@@ -36,23 +38,21 @@ def remove_food
     foods_list.push(line)
   end
 
-  new_foods_list = foods_list
-
   foods_list.each do |food|
-    array_place = 0
+    ticker = 0
     peoples_list.each do |people|
       if food == people
-        new_foods_list.slice(array_place)
+        ticker = 1
       end
     end
-    array_place +=1
+    if ticker < 1
+      new_foods_list.push(food)
+    end
   end
-
-  print new_foods_list
-  print peoples_list
 
   replace = open('foods.csv', 'w+')
   replace.write(new_foods_list.join)
+  replace.close
 end
 
 def food_list
